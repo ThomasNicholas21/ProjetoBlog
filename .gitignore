@@ -8,6 +8,7 @@ media
 /static_files
 /media
 project/local_settings.py
+/data/
 
 # Backup files # 
 *.bak 
