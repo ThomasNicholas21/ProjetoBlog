@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-q!6y&^n$7+rw4hplq()a(4yuu1re^2t!9(x2pki81-ewti=d5$
 # Busca variáveis de ambiente para retornar um booleano
 DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
+# busca a variável de ambiente e separa os host por virgulas
+ALLOWED_HOSTS = [
+    host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',')
+    if host.strip()
+]
 
 
 # Application definition
