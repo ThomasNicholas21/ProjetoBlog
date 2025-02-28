@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    {% include "blog/partials/_partials.html" %}
+    {% include "blog/partials/_head.html" %}
 <body>
-    {% block content %}
-    {% endblock  %}
+    {% include "blog/partials/_header.html" %}
+    {% block content %}{% endblock  %}
+    {% include "blog/partials/_pagination.html" %}
+    {% include "blog/partials/_footer.html" %}
 </body>
 </html>
