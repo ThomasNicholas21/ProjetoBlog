@@ -336,3 +336,33 @@ for _ in range(10):
         address=fake.address()
     )
 ```
+
+# Docker 
+Comandos:
+Buildar uma aplicação
+```cmd
+django-compose up --build
+```
+Parar docker
+```cmd
+django-compose down
+```
+Listar conteiner
+```cmd
+docker ps
+```
+Rodar comandos dentro do container
+```cmd
+docker-compose run --rm __seu_app__ python -V
+docker-compose run --rm __seu_app__ pwd
+docker-compose run --rm __seu_app__ python manage.py __comando__
+docker-compose run --rm __seu_app__ sh -c 'comando_desejado'
+```
+Comando para entrar no container de modo iterativo aceitando comando _Unix_(não muito comum). Lembrando que o container deve estar em funcionamento.
+```cmd
+docker exec -it __seu_app__ /bin/sh
+```
+Comando para rodar scripts criado dentro do docker (casou haja algum)
+```cmd
+docker-compose run --rm __seu_app__ seu_script.sh
+```
