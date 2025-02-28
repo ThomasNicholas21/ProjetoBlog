@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   app:
     container_name: app
@@ -15,7 +13,6 @@ services:
       - ./dotenv_files/.env
     depends_on:
       - psql
-      
   psql:
     container_name: psql
     image: postgres:13-alpine
