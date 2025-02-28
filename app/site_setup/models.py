@@ -15,6 +15,15 @@ class MenuLink(models.Model):
     url_or_path = models.CharField(max_length=2048)
     new_tab = models.BooleanField(default=False)
 
+    # Informando a MenuLink a chave estrangeira, ou seja,
+    # informando a qual entidade ele pertence que seria
+    # SiteSetup, que é chamado como String pois o Django,
+    # consegue identificar ele na base de dados
+    site_setup = models.ForeignKey('SiteSetup', 
+                                   on_delete=models.CASCADE, 
+                                   blank=True, null=True,
+                                   default=None
+                                   )
     def __str__(self):
         return self.text
 
@@ -33,3 +42,6 @@ class SiteSetup(models.Model):
     show_description = models.BooleanField(default=True)
     show_pagination = models.BooleanField(default=True)
     show_footer = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
