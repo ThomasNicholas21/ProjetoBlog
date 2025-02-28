@@ -10,9 +10,18 @@ class MenuLinkAdmin(admin.ModelAdmin):
     search_fields = 'id', 'text', 'url_or_path', 'new_tab',
 
 
+# Esse elemento é uma forma de fazer uma relação entre um model e outro,
+# aonde me permite acessar os elementos de MenuLink em SiteSetup.
+# tendo TabularInline e StackedInline
+class MenuLinkInline(admin.TabularInline):
+    model = models.MenuLink
+    extra = 1
+
+
 @admin.register(models.SiteSetup)
 class SiteSetupAdmin(admin.ModelAdmin):
     list_display = 'title', 'description',
+    inlines = MenuLinkInline,
 
     def has_add_permission(self, request):
         return not models.SiteSetup.objects.all()[:1].exists()
