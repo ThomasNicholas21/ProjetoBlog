@@ -273,6 +273,26 @@ Ao criar um aplicativo com Django, o mesmo realiza sugestões de como estrutarar
         - __init__.py
         - outras_views.py
 ```
+
+### Context Processors
+O mesmo é uma configuração que vem do settings default do django, que permite o acesso de dados globais para todos os templates da aplicação, é definida uma função no qual retorna um dicionário e adicionado em context_processors no settings do Django.
+```python
+
+def func(request):
+    return {
+        'dado1': 'dado global'
+    }
+```
+Depois de definido, é necessário configura-lo dentro dos templates da aplicação:
+```python
+{
+    'context_processors': [
+                # Adicione o seu context processor personalizado aqui
+                'myapp.context_processors.site_info',
+        ]
+}
+```
+
 # Django HTML
 ### extends
 Herança de template utilizado.
