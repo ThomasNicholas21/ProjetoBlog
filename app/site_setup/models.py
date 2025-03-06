@@ -1,5 +1,7 @@
 from django.db import models
 from site_setup.utils.models_validator import validate_png
+from site_setup.utils.image import resize_image
+
 # Create your models here.
 
 # Configuração de menu para o aplicativo blog
@@ -47,6 +49,19 @@ class SiteSetup(models.Model):
         upload_to='assets/favicon/%Y/%m/',
         blank=True, default='', validators=[validate_png]
     )
+
+
+    def save(self, *args, **kwargs):
+        current_favicon_name = str(self.favicon.name)
+        super().save(*args, **kwargs)
+        favicon_changed = False
+
+        if self.favicon:
+            favicon_changed = current_favicon_name != self.favicon.name
+
+        if favicon_changed:
+            resize_image(self.favicon, 32)
+
 
     def __str__(self):
         return self.title
