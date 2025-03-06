@@ -1,3 +1,10 @@
+:root {
+    --clr--white: (213, 100%, 98%);
+    --clr--black: (213, 100%, 5%);
+    --clr--primary: (213, 100%, 50%);
+}
+
 body {
-    background-color: aqua;
+    background-color: hsl(var(--clr--white));
+    color: hsl(var(--clr--black));
 }
