@@ -1,5 +1,5 @@
 from django.db import models
-
+from site_setup.utils.models_validator import validate_png
 # Create your models here.
 
 # Configuração de menu para o aplicativo blog
@@ -45,7 +45,7 @@ class SiteSetup(models.Model):
 
     favicon = models.ImageField(
         upload_to='assets/favicon/%Y/%m/',
-        blank=True, default=''
+        blank=True, default='', validators=[validate_png]
     )
 
     def __str__(self):
