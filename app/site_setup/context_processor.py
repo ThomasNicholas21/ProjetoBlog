@@ -8,11 +8,9 @@ def testing_context_processor(request):
     }
 
 def site_setup(request):
-    title = models.SiteSetup.objects.order_by('-id').first()
+    data = models.SiteSetup.objects.order_by('-id').first()
 
     return {
-        'site_setup': {
-            'title': title
-        }
+        'site_setup': data
     }
 
