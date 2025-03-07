@@ -23,3 +23,15 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ('name',),
     }
+
+
+@admin.register(models.Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = 'id', 'title', 'slug', 
+    list_display_links = 'title',
+    search_fields = 'id', 'title', 'slug',
+    list_per_page = 10
+    ordering = '-id',
+    prepopulated_fields = {
+        'slug': ('title',),
+    }
