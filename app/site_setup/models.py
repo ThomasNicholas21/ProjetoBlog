@@ -1,6 +1,6 @@
 from django.db import models
-from site_setup.utils.models_validator import validate_png
-from site_setup.utils.image import resize_image
+from utils.models_validator import validate_png
+from utils.image import resize_image
 
 # Create your models here.
 
