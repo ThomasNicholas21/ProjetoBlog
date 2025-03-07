@@ -74,3 +74,52 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Post(models.Model):
+    class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
+
+    title = models.CharField(max_length=65)
+    slug = models.SlugField(
+        unique=True, default='',
+        blank=True, null=False,
+        max_length=65
+    )
+    is_published = models.BooleanField(
+        default=True,
+        help_text=(
+            'Este campo precisa estar marcado para '
+            'publicação aparecer no blog.'
+        )
+    )
+    content = models.TextField()
+    cover = models.ImageField(upload_to='post/Y%/%m/', blank=True, default='')
+    cover_in_posts_content = models.BooleanField(
+        default=True,
+        help_text=(
+            'Exibir a imagem de capa também dentro do '
+            'conteúdo do post?'
+        )
+    )
+    # auto_now_add x auto_now
+    # atualiza uma vez só x atualiza após cada save
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True, default=None,
+    )
+    # Uma relação de muito pra muitos com Tags, pois um post 
+    # pode ter muitas tags e uma Tag pode estar em muitos posts
+    tags = models.ManyToManyField(Tag, blank=True, default='')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_new(self.name)
+        
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+    
