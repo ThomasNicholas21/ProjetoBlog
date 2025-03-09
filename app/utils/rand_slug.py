@@ -4,12 +4,12 @@ from django.utils.text import slugify
 import string
 
 
-def random_letters(size):
+def random_letters(k=5):
     return ''.join(
         SystemRandom().choices(
-            string.ascii_lowercase + string.digits, size
+            string.ascii_lowercase + string.digits, k
             )
         )
 
-def slugify_new(text, size=5):
-    return slugify(text) + random_letters(size)
+def slugify_new(text, k=5):
+    return slugify(text) + random_letters(k)
