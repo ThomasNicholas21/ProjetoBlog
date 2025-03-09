@@ -1,5 +1,6 @@
 from django.db import models
 from utils.rand_slug import slugify_new
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Tag(models.Model):
@@ -106,7 +107,24 @@ class Post(models.Model):
     # auto_now_add x auto_now
     # atualiza uma vez só x atualiza após cada save
     created_at = models.DateTimeField(auto_now_add=True)
+    # o atributo related_name substitui o nome de query set 
+    # para evitar conflitos. Por exemplo, para pegar um dado
+    # relacionado ao usuário, deve-se usar user.post_set.all()
+    # com related_name ficaria: user.post_created_by, pois user 
+    # é uma ForeignKey.
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='post_created_by'
+    )
     updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='post_updated_by'
+    )
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None,
     )
@@ -116,7 +134,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify_new(self.name)
+            self.slug = slugify_new(self.title)
         
         return super().save(*args, **kwargs)
 
