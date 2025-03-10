@@ -363,6 +363,10 @@ Buildar uma aplicação
 ```cmd
 django-compose up --build
 ```
+Como buildar uma aplicação sem criar novos contairners
+```cmd
+docker-compose up --build --remove-orphans --no-recreate
+```
 Parar docker
 ```cmd
 django-compose down
