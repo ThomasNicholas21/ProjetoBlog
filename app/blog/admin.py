@@ -1,5 +1,6 @@
 from django.contrib import admin
 from blog import models
+from django_summernote.admin import SummernoteModelAdmin
 # Register your models here.
 @admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -38,7 +39,7 @@ class PageAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
     list_display = 'id', 'title', 'is_published',  'created_by',
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'excerpt', 'content',
@@ -51,6 +52,7 @@ class PostAdmin(admin.ModelAdmin):
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category',
+    summernote_fields = ('content',)
 
     # change: aponta se esse model está sendo alterado ou sendo criando
     # retornando um booleano
