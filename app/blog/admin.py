@@ -51,3 +51,13 @@ class PostAdmin(admin.ModelAdmin):
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category',
+
+    # change: aponta se esse model está sendo alterado ou sendo criando
+    # retornando um booleano
+    def save_model(self, request, obj: models.Post, form, change):
+        if change:
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+
+        obj.save()
