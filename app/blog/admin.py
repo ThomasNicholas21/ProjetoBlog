@@ -62,7 +62,7 @@ class PostAdmin(SummernoteModelAdmin):
         if not obj.pk:
             return '-'
         
-        url_post = reverse('blog:post', args=(obj.slug,))
+        url_post = obj.get_absolute_url()
         safe_url = mark_safe(
             f'<a target="_blank" href="{url_post}">Ver Post</a>'
         )

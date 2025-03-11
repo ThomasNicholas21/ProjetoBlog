@@ -3,6 +3,7 @@ from utils.rand_slug import slugify_new
 from django.contrib.auth.models import User
 from utils.image import resize_image
 from django_summernote.models import AbstractAttachment
+from django.urls import reverse
 # Create your models here.
 
 
@@ -163,6 +164,12 @@ class Post(models.Model):
     # Uma relação de muito pra muitos com Tags, pois um post 
     # pode ter muitas tags e uma Tag pode estar em muitos posts
     tags = models.ManyToManyField(Tag, blank=True, default='')
+
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse('blog:index')
+        return reverse("blog:post", args=(self.slug, ))
+    
 
     def save(self, *args, **kwargs):
         if not self.slug:
