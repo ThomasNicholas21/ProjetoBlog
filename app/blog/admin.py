@@ -1,6 +1,8 @@
 from django.contrib import admin
 from blog import models
 from django_summernote.admin import SummernoteModelAdmin
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 # Register your models here.
 @admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -48,12 +50,24 @@ class PostAdmin(SummernoteModelAdmin):
     list_filter = 'category', 'is_published',
     list_editable = 'is_published',
     ordering = '-id',
-    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by',
+    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by',\
+                        'link',
     prepopulated_fields = {
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category',
     summernote_fields = ('content',)
+
+    def link(self, obj):
+        if not obj.pk:
+            return '-'
+        
+        url_post = reverse('blog:post', args=(obj.slug,))
+        safe_url = mark_safe(
+            f'<a target="_blank" href="{url_post}">Ver Post</a>'
+        )
+
+        return safe_url
 
     # change: aponta se esse model está sendo alterado ou sendo criando
     # retornando um booleano
