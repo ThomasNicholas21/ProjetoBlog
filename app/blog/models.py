@@ -103,6 +103,9 @@ class PostManager(models.Manager):
     # self representa objects dos models
     def get_published(self):
         return self.filter(is_published=True).order_by('-pk')
+    
+    def get_post(self, slug):
+        return self.filter(slug=slug).first()
 
 
 class Post(models.Model):

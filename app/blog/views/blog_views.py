@@ -31,12 +31,14 @@ def page(request):
     )
 
 
-def post(request):
+def post(request,slug):
+    post = Post.objects.get_post(slug)
+
 
     return render(
         request,
         'blog/pages/post.html',
         {
-            # 'page_obj': page_obj,
+            'post': post,
         }
     )
