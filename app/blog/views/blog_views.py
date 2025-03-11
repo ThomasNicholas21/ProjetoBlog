@@ -20,7 +20,7 @@ def index(request):
     )
 
 
-def page(request):
+def page(request, slug):
 
     return render(
         request,
