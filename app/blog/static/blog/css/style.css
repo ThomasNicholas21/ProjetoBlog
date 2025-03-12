@@ -216,6 +216,10 @@
     height: 1px;
     flex-shrink: 0;
   }
+
+  .mt-base {
+    margin-top: var(--spacing-base)
+  }
   
   /* Screen Reader Only - For Visually hidden elements */
   .sr-only {
