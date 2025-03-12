@@ -7,9 +7,9 @@ import string
 def random_letters(k=5):
     return ''.join(
         SystemRandom().choices(
-            string.ascii_lowercase + string.digits, k
+            string.ascii_lowercase + string.digits, k=k
             )
         )
 
 def slugify_new(text, k=5):
-    return slugify(text) + random_letters(k)
+    return slugify(text) + '-' + random_letters(k)
