@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from blog.models import Post, Page
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.http import Http404
 
 PER_PAGE = 9
 
@@ -45,6 +47,17 @@ def search(request):
 
 
 def created_by(request, author_id):
+    user = User.objects.filter(pk=author_id).first()
+    user_full_name = user.username
+
+    if user is None:
+        raise Http404('User not found')
+    
+    if user.first_name:
+        user_full_name = f'{user.first_name} {user.last_name} posts - '
+
+    page_title = user_full_name
+    
     posts = (
         Post.objects.get_published()
         .filter(created_by__pk=author_id)
@@ -59,6 +72,7 @@ def created_by(request, author_id):
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
+            'page_title': page_title,
         }
     )
 
