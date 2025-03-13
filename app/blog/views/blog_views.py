@@ -37,13 +37,15 @@ def search(request):
             Q(excerpt__icontains=search_values) 
         ).order_by('-id')[:PER_PAGE]
     )
+    
+    page_title = f'{search_values[:15]} - Search - '
 
     return render(
         request,
         'blog/pages/index.html',
         {
             'page_obj': posts,
-            'page_title': 'Home -',
+            'page_title': page_title,
         }
     )
 
@@ -118,7 +120,6 @@ def tag_view(request, slug):
         return Http404()
     
     page_title = f'{page_obj[0].tags.first().name} - Tags - '
-    print(page_title)
 
     return render(
         request,
