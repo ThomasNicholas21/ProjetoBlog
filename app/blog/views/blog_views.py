@@ -114,12 +114,18 @@ def tag_view(request, slug):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    if len(posts) == 0:
+        return Http404()
+    
+    page_title = f'{page_obj[0].tags.first().name} - Tags - '
+    print(page_title)
+
     return render(
         request,
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
-            'page_title': 'Home -',
+            'page_title': page_title,
         }
     )
 
