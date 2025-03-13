@@ -19,6 +19,7 @@ def index(request):
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
+            'page_title': 'Home -',
         }
     )
 
@@ -42,6 +43,7 @@ def search(request):
         'blog/pages/index.html',
         {
             'page_obj': posts,
+            'page_title': 'Home -',
         }
     )
 
@@ -54,9 +56,9 @@ def created_by(request, author_id):
         raise Http404('User not found')
     
     if user.first_name:
-        user_full_name = f'{user.first_name} {user.last_name} posts - '
+        user_full_name = f'{user.first_name} {user.last_name}'
 
-    page_title = user_full_name
+    page_title = 'Posts de' + user_full_name
     
     posts = (
         Post.objects.get_published()
@@ -87,11 +89,17 @@ def category_view(request, slug):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    if len(posts) == 0:
+        raise Http404()
+
+    page_title = f'{page_obj[0].category.name} - Categoria - '
+
     return render(
         request,
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
+            'page_title': page_title,
         }
     )
 
@@ -111,6 +119,7 @@ def tag_view(request, slug):
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
+            'page_title': 'Home -',
         }
     )
 
@@ -123,6 +132,7 @@ def page(request, slug):
         'blog/pages/page.html',
         {
             'page': page,
+            'page_title': 'Home -',
         }
     )
 
@@ -136,5 +146,6 @@ def post(request,slug):
         'blog/pages/post.html',
         {
             'post': post,
+            'page_title': 'Home -',
         }
     )
