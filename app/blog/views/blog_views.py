@@ -131,7 +131,7 @@ def tag_view(request, slug):
     )
 
 
-def page(request, slug):
+def page_view(request, slug):
     page = Page.objects.filter(is_published=True).filter(slug=slug).first()
 
     if page is None:
@@ -149,7 +149,7 @@ def page(request, slug):
     )
 
 
-def post(request,slug):
+def post_view(request,slug):
     post = Post.objects.get_post(slug)
 
     if post is None:
