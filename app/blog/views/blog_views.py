@@ -117,7 +117,7 @@ def tag_view(request, slug):
     page_obj = paginator.get_page(page_number)
 
     if len(posts) == 0:
-        return Http404()
+        raise Http404()
     
     page_title = f'{page_obj[0].tags.first().name} - Tags - '
 
@@ -134,12 +134,17 @@ def tag_view(request, slug):
 def page(request, slug):
     page = Page.objects.filter(is_published=True).filter(slug=slug).first()
 
+    if page is None:
+        raise Http404()
+
+    page_title = f'{page} - Page - '
+
     return render(
         request,
         'blog/pages/page.html',
         {
             'page': page,
-            'page_title': 'Home -',
+            'page_title': page_title,
         }
     )
 
@@ -147,12 +152,16 @@ def page(request, slug):
 def post(request,slug):
     post = Post.objects.get_post(slug)
 
+    if post is None:
+        raise Http404()
+
+    page_title = f'{post} - Post -'
 
     return render(
         request,
         'blog/pages/post.html',
         {
             'post': post,
-            'page_title': 'Home -',
+            'page_title': page_title,
         }
     )
