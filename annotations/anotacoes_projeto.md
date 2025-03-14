@@ -293,6 +293,11 @@ Depois de definido, é necessário configura-lo dentro dos templates da aplicaç
 }
 ```
 
+### CBV - Class Based View
+Views baseadas em classes são utilizadas quando para simplificar views que, se feitas em funções, podem ser complexas de entender e testar. Fazendo-se em classes, permite que a view fique menos complexa para o entendimento e deixe o código mais limpo.
+
+No DJango, temos Views baseadas em classes já prontas, que possuem diversas funcionalidades e Mixins para simplificar a criação de Views. Possibilitando utilizar tudo que programação orientada a objetos fornece.
+
 # Django HTML
 ### extends
 Herança de template utilizado.
