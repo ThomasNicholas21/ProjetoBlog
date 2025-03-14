@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from typing import Any
 
 PER_PAGE = 6
@@ -309,6 +310,28 @@ def page_view(request, slug):
         }
     )
 
+
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'blog/pages/page.html'
+    slug_field = 'slug'
+    context_object_name = 'page'
+    ordering = '-pk'
+    queryset = Page.objects.filter(is_published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page = self.get_object()
+        page_title = f'{page.title} - Page - '
+        
+        context.update(
+            {
+                'page_title': page_title,
+            }
+        )
+
+        return context
+    
 
 def post_view(request,slug):
     post = Post.objects.get_post(slug)
