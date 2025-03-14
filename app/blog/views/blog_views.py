@@ -154,29 +154,29 @@ class CreatedByListView(PostListView):
         return super().get(request, *args, **kwargs)
     
 
-def category_view(request, slug):
-    posts = (
-        Post.objects.get_published()
-        .filter(category__slug=slug)
-    )
+# def category_view(request, slug):
+#     posts = (
+#         Post.objects.get_published()
+#         .filter(category__slug=slug)
+#     )
 
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
 
-    if len(posts) == 0:
-        raise Http404()
+#     if len(posts) == 0:
+#         raise Http404()
 
-    page_title = f'{page_obj[0].category.name} - Categoria - '
+#     page_title = f'{page_obj[0].category.name} - Categoria - '
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
-            'page_title': page_title,
-        }
-    )
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,
+#             'page_title': page_title,
+#         }
+#     )
 
 
 class CategoryListView(PostListView):
