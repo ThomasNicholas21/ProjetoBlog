@@ -14,5 +14,5 @@ urlpatterns = [
     path('post/<slug:slug>/', views.post_view, name='post'),
     path('created_by/<int:author_id>/', views.CreatedByListView.as_view(), name='created_by'),
     path('category/<str:slug>/', views.CategoryListView.as_view(), name='category'),
-    path('tag/<str:slug>/', views.tag_view, name='tag'),
+    path('tag/<str:slug>/', views.TagListView.as_view(), name='tag'),
 ]
