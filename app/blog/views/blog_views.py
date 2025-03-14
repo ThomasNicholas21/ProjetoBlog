@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.views.generic.list import ListView
+from typing import Any
 
 PER_PAGE = 6
 
@@ -74,36 +75,84 @@ def search(request):
     )
 
 
-def created_by(request, author_id):
-    user = User.objects.filter(pk=author_id).first()
-    user_full_name = user.username
+# def created_by(request, author_id):
+#     user = User.objects.filter(pk=author_id).first()
+#     user_full_name = user.username
 
-    if user is None:
-        raise Http404('User not found')
+#     if user is None:
+#         raise Http404('User not found')
     
-    if user.first_name:
-        user_full_name = f'{user.first_name} {user.last_name}'
+#     if user.first_name:
+#         user_full_name = f'{user.first_name} {user.last_name}'
 
-    page_title = 'Posts de' + user_full_name
+#     page_title = 'Posts de' + user_full_name
     
-    posts = (
-        Post.objects.get_published()
-        .filter(created_by__pk=author_id)
-    )
+#     posts = (
+#         Post.objects.get_published()
+#         .filter(created_by__pk=author_id)
+#     )
 
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
-            'page_title': page_title,
-        }
-    )
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,
+#             'page_title': page_title,
+#         }
+#     )
 
+
+class CreatedByListView(PostListView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._temp_context: dict[str, Any] = {}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # self.kwargs pega os argumentos passados via URL
+        # author_id = self.kwargs.get('author_id')
+        # user = User.objects.filter(pk=author_id).first()
+        user = self._temp_context.get('user')
+        user_full_name = user.username
+        
+        if user.first_name:
+            user_full_name = f'{user.first_name} {user.last_name}'
+
+        page_title = f'Posts de {user_full_name} - '
+
+        context.update({'page_title': page_title})
+
+        return context
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author_id = self._temp_context['user'].pk
+        queryset = (
+            queryset
+            .filter(created_by__pk=author_id))
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        author_id = self.kwargs.get('author_id')
+        user = User.objects.filter(pk=author_id).first()
+
+        if user is None:
+            raise Http404()
+        
+        self._temp_context.update(
+            {
+                'author_id': author_id,
+                'user': user
+            }
+        )
+
+        return super().get(request, *args, **kwargs)
+    
 
 def category_view(request, slug):
     posts = (
