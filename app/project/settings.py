@@ -52,6 +52,14 @@ INSTALLED_APPS = [
     'blog',
     'site_setup',
     'django_summernote',
+    # Axes app can be in any position in the INSTALLED_APPS list.
+    'axes',
+]
+
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +70,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -174,3 +184,9 @@ SUMMERNOTE_CONFIG = {
     'attachment_filesize_limit': 30 * 1024 * 1024,
     'attachment_model': 'blog.PostAttachment',
 }
+
+# AXES CONFIG BLOG
+AXES_ENABLED = True
+AXES_FAILURE_LIMIT = 6
+AXES_COOLOFF_TIME = 1
+AXES_RESET_ON_SUCCESS = True
