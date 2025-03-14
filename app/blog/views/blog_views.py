@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator
+from django.shortcuts import redirect
 from blog.models import Post, Page
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -293,22 +292,22 @@ class TagListView(PostListView):
         return context
 
 
-def page_view(request, slug):
-    page = Page.objects.filter(is_published=True).filter(slug=slug).first()
+# def page_view(request, slug):
+#     page = Page.objects.filter(is_published=True).filter(slug=slug).first()
 
-    if page is None:
-        raise Http404()
+#     if page is None:
+#         raise Http404()
 
-    page_title = f'{page} - Page - '
+#     page_title = f'{page} - Page - '
 
-    return render(
-        request,
-        'blog/pages/page.html',
-        {
-            'page': page,
-            'page_title': page_title,
-        }
-    )
+#     return render(
+#         request,
+#         'blog/pages/page.html',
+#         {
+#             'page': page,
+#             'page_title': page_title,
+#         }
+#     )
 
 
 class PageDetailView(DetailView):
@@ -333,19 +332,40 @@ class PageDetailView(DetailView):
         return context
     
 
-def post_view(request,slug):
-    post = Post.objects.get_post(slug)
+# def post_view(request,slug):
+#     post = Post.objects.get_post(slug)
 
-    if post is None:
-        raise Http404()
+#     if post is None:
+#         raise Http404()
 
-    page_title = f'{post} - Post -'
+#     page_title = f'{post} - Post -'
 
-    return render(
-        request,
-        'blog/pages/post.html',
-        {
-            'post': post,
-            'page_title': page_title,
-        }
-    )
+#     return render(
+#         request,
+#         'blog/pages/post.html',
+#         {
+#             'post': post,
+#             'page_title': page_title,
+#         }
+#     )
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/pages/post.html'
+    slug_field = 'slug'
+    context_object_name = 'post'
+    queryset = Post.objects.filter(is_published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        page_title = f'{post.title} - Post -'
+
+        context.update(
+            {
+                'page_title': page_title
+            }
+        )
+
+        return context
