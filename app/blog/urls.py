@@ -9,7 +9,7 @@ app_name = 'blog'
 
 urlpatterns = [
     path('', views.PostListView.as_view(), name='index'),
-    path('search/', views.search, name='search'),
+    path('search/', views.SearchViewList.as_view(), name='search'),
     path('page/<slug:slug>/', views.page_view, name='page'),
     path('post/<slug:slug>/', views.post_view, name='post'),
     path('created_by/<int:author_id>/', views.CreatedByListView.as_view(), name='created_by'),

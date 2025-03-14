@@ -49,30 +49,72 @@ class PostListView(ListView):
         return context
 
 
-def search(request):
-    search_values = request.GET.get('q', '').strip()
+# def search(request):
+#     search_values = request.GET.get('q', '').strip()
 
-    if search_values == '':
-        return redirect('blog:index')
+#     if search_values == '':
+#         return redirect('blog:index')
     
-    posts = (
-        Post.objects.get_published()
-        .filter(
-            Q(title__icontains=search_values) |
-            Q(excerpt__icontains=search_values) 
-        ).order_by('-id')[:PER_PAGE]
-    )
+#     posts = (
+#         Post.objects.get_published()
+#         .filter(
+#             Q(title__icontains=search_values) |
+#             Q(excerpt__icontains=search_values) 
+#         ).order_by('-id')[:PER_PAGE]
+#     )
     
-    page_title = f'{search_values[:15]} - Search - '
+#     page_title = f'{search_values[:15]} - Search - '
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': posts,
-            'page_title': page_title,
-        }
-    )
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': posts,
+#             'page_title': page_title,
+#         }
+#     )
+
+
+class SearchViewList(PostListView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._search_values = ''
+    
+    def setup(self, request, *args, **kwargs):
+        self._search_values = request.GET.get('q', '').strip()
+        return super().setup(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = (
+            queryset
+            .filter(
+                Q(title__icontains=self._search_values) |
+                Q(excerpt__icontains=self._search_values) 
+            ).order_by('-id')
+        )
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self._search_values = self.request.GET.get('q', '').strip()
+        page_title = f'{self._search_values[:15]} - Search - '
+
+        context.update(
+            {
+                'page_title': page_title,
+                'search_value': self._search_values,
+            }
+        )
+        
+        return context
+    
+    def get(self, request, *args, **kwargs):
+
+        if self._search_values == '':
+            return redirect('blog:index')
+        
+        return super().get(request, *args, **kwargs)
 
 
 # def created_by(request, author_id):

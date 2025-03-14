@@ -21,7 +21,9 @@
                                     name="q" 
                                     id="search"
                                     placeholder="Search"
-                                    value="{{ request.GET.q.strip}}">
+                                    value="{{ search_value }}"
+                                    required
+                                >
                                 <button class="search-btn" type="submit" aria-labelledby="search-label">
                                 <i class="fa fa-search"></i>
                             </button>
