@@ -370,7 +370,7 @@ django-compose up --build
 ```
 Como buildar uma aplicação sem criar novos contairners
 ```cmd
-docker-compose up --build --remove-orphans --no-recreate
+docker-compose up --build --remove-orphans --renew-anon-volumes --no-recreate
 ```
 Parar docker
 ```cmd
