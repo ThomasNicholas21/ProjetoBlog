@@ -1,7 +1,6 @@
 from django.contrib import admin
 from blog import models
 from django_summernote.admin import SummernoteModelAdmin
-from django.urls import reverse
 from django.utils.safestring import mark_safe
 # Register your models here.
 @admin.register(models.Tag)
@@ -30,10 +29,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Page)
 class PageAdmin(SummernoteModelAdmin):
-    list_display = 'id', 'title', 'slug', 
+    list_display = 'id', 'title', 'is_published', 'slug', 
     list_display_links = 'title',
     search_fields = 'id', 'title', 'slug',
     list_per_page = 10
+    list_editable = 'is_published',
     ordering = '-id',
     prepopulated_fields = {
         'slug': ('title',),
