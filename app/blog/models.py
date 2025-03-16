@@ -96,7 +96,7 @@ class Page(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify_new(self.name)
+            self.slug = slugify_new(self.title)
         
         return super().save(*args, **kwargs)
 
