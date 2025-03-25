@@ -75,11 +75,11 @@
   }
   
   body {
-    background-color: hsl(var(--clr-white));
+    background-color: whitesmoke;
     color: hsl(var(--clr-black));
     font-size: 20px; /* Fallback value */
     font-size: var(--fs-base);
-    font-family: var(--ff-regular);
+    font-family: monospace !important;
     line-height: var(--lh-regular);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -180,6 +180,7 @@
   
   .main-content {
     flex-grow: 1;
+    background-color: whitesmoke;
   }
   
   /* Sections */
@@ -235,9 +236,19 @@
   }
   
   /* Header */
+  .header {
+    background-color: #E8E8E8;
+  }
+
+  .blog-title a {
+    color: #00008B;;
+  }
+
+
   .blog-title,
   .blog-description {
     margin: 0;
+    font-family: monospace;
   }
   
   /* Menu */
@@ -246,6 +257,10 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+  }
+
+  .menu-item a {
+    color: #00008B;
   }
   
   .menu-items {
@@ -272,8 +287,9 @@
   
   .search-input {
     width: 100%;
-    background-color: transparent;
-    border: 2px solid hsl(var(--clr-gray-ltr));
+    background-color: white;
+    border: 2px solid #00008B;
+    border-radius: 8px;
     font-size: var(--fs-base);
     padding: var(--spacing-smlst);
     padding-inline-end: calc(var(--spacing-base) + var(--spacing-micro));
@@ -300,7 +316,8 @@
     background: transparent;
     font-size: var(--fs-base);
     padding-inline: var(--spacing-smlst);
-    color: hsl(var(--clr-gray-ltr));
+    color: #00008B;
+    cursor: pointer;
   }
   
   .search-content:focus-within .search-btn {
@@ -397,6 +414,10 @@
     font-size: var(--fs-bg);
   }
   
+  .fa-circle-chevron-right, .fa-forward-fast, .fa-circle-chevron-left, .fa-backward-fast {
+    color: #00008B;
+  }
+
   .step-links {
     display: flex;
     flex-flow: row nowrap;
@@ -421,8 +442,9 @@
     border-radius: var(--br-base);
     box-shadow: 0 5px 5px hsl(var(--clr-black) / 0.1);
     transition: scale 300ms ease-in-out, box-shadow 300ms ease-in-out;
+    background-color: white;
   }
-  
+
   .card:hover {
     scale: 1.02;
     box-shadow: 0 5px 15px hsl(var(--clr-black) / 0.3);
@@ -458,6 +480,7 @@
   
   .card-title {
     font-size: var(--fs-bg);
+    font-family: monospace;
     margin-top: 0;
     margin-bottom: var(--spacing-micro);
   }
@@ -476,6 +499,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--spacing-micro);
+    color: #00008B;
   }
   
   .card-action-link:hover {
